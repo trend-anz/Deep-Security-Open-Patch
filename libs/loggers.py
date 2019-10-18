@@ -46,7 +46,7 @@ class Loggers:
 
         return file_log
 
-    def entry(self, level, msg, to_base64=False, hide_base64=True):
+    def entry(self, level, msg, to_base64=False, hide_base64=True, replace_chars=True):
         for handler in [self.console_logger, self.file_logger]:
             log_level = getattr(handler, level)
 
@@ -60,7 +60,7 @@ class Loggers:
                         msg = f'Base64 encoded log: {encoded_msg}'
 
                 else:
-                    if isinstance(msg, str):
+                    if replace_chars and isinstance(msg, str):
                         msg = msg.replace('"', "'").replace('\n', ' ')
 
             log_level(msg)

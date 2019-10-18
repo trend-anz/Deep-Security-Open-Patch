@@ -1,7 +1,6 @@
 import sys
 import warnings
 from libs.ds import Ds
-from pprint import pprint
 
 if not sys.warnoptions:
     warnings.simplefilter('ignore')
@@ -17,14 +16,11 @@ class Op(Ds):
         self.policy_name = policy_name
         self.cve = cve
 
-        self.logger.entry('info', f'Received {self.cve} and "{self.hostname}" for policy "{self.policy_name}"')
-
         self.ips_rules = self.get_ips_rules()
         self.cve_ips_map = self.get_cve_ips_map(self.ips_rules)
 
-        self.run()
-
     def run(self):
+        self.logger.entry('info', f'Received {self.cve} and "{self.hostname}" for policy "{self.policy_name}"')
         policy_id, existing_ips_rule_ids = self.get_policy_rule_ids(self.policy_name)
 
         if not policy_id:
@@ -72,4 +68,3 @@ class Op(Ds):
         self.logger.entry('info', f'Finished')
 
 
-Op('WIN-Q0HITV3HJ6D', 'Demo Policy', 'CVE-2017-0148')

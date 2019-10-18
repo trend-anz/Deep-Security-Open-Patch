@@ -8,7 +8,7 @@ import deepsecurity as api
 from deepsecurity.rest import ApiException
 from .loggers import Loggers
 
-
+DEFAULT_APP_NAME='ds'
 PAGE_SIZE = 5000
 
 
@@ -22,7 +22,7 @@ class Ds:
 
     log_file_path = f'{output_dir_name}/log.txt'
 
-    def __init__(self, app_name, log_level='INFO'):
+    def __init__(self, app_name=DEFAULT_APP_NAME, log_level='INFO'):
         self.app_name = app_name
         self.logger = Loggers(self.app_name, self.log_file_path, log_level)
 
@@ -304,7 +304,7 @@ class Ds:
             sys.exit(1)
 
     @staticmethod
-    def _join_ints_as_str(int_list):
-        joined_ips_rules = ', '.join(str(rule_id) for rule_id in int_list)
+    def _join_ints_as_str(int_list, sep=','):
+        joined_ips_rules = sep.join(str(rule_id) for rule_id in int_list)
 
         return joined_ips_rules
