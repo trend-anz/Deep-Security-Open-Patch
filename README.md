@@ -1,6 +1,6 @@
 # Deep Security Open Patch (DSOP)
 
-DSOP enables third parties such as Tenable, Rapid7, Qualys, ServiceNow, etc to easily apply Deep Security IPS rules ([virtual patches](https://www.trendmicro.com/vinfo/au/security/news/vulnerabilities-and-exploits/virtual-patching-patch-those-vulnerabilities-before-they-can-be-exploited)). Simply pass DSOP:
+DSOP enables third parties (Tenable, Rapid7, Qualys, ServiceNow, etc) to easily apply Deep Security IPS rules ([virtual patches](https://www.trendmicro.com/vinfo/au/security/news/vulnerabilities-and-exploits/virtual-patching-patch-those-vulnerabilities-before-they-can-be-exploited)). Simply pass DSOP the:
 
 1. Hostname of a Deep Security protected host
 2. Deep Security policy name (new or existing)
@@ -8,9 +8,9 @@ DSOP enables third parties such as Tenable, Rapid7, Qualys, ServiceNow, etc to e
 
 DSOP will then do the following:
 
-1. Check if the provided policy name exists. If it doesn't, it will create it
-2. Check if the policy already has a rule applied which protects against the specified CVE. If it doesn't, it adds the rule
-3. Check if the host is protected by the specified policy. If it isn't, it changes the host's policy  
+1. Check if the specified policy name exists. If it doesn't, DSOP will create it
+2. Check if the policy already has rule(s) applied which protect against the specified CVE. If it doesn't, DSOP adds the necessary rule(s)
+3. Check if the host is protected by the specified policy. If it isn't, DSOP changes the host's policy to match the specified policy  
 
 ## Example Output
 
