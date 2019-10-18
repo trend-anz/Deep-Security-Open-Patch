@@ -19,6 +19,8 @@ class Op(Ds):
         self.ips_rules = self.get_ips_rules()
         self.cve_ips_map = self.get_cve_ips_map(self.ips_rules)
 
+        self.run()
+
     def run(self):
         self.logger.entry('info', f'Received {self.cve} and "{self.hostname}" for policy "{self.policy_name}"')
         policy_id, existing_ips_rule_ids = self.get_policy_rule_ids(self.policy_name)
@@ -66,5 +68,8 @@ class Op(Ds):
             self.logger.entry('info', f'Successfully moved "{self.hostname}" to Policy "{self.policy_name}"')
 
         self.logger.entry('info', f'Finished')
+
+
+# Op('WIN-Q0HITV3HJ6D', 'Demo Policy', 'CVE-2017-0148')
 
 
