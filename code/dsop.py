@@ -9,8 +9,10 @@ APP_NAME = 'OpenPatch'
 
 
 class Op(Ds):
-    def __init__(self, hostname, policy_name, cve, log_file_path=None, log_level='INFO'):
-        super().__init__(APP_NAME, log_file_path, log_level)
+    def __init__(self, hostname, policy_name, cve, console_logger=False, log_file_path='', print_logger=False,
+                 log_level='INFO'):
+
+        super().__init__(APP_NAME, console_logger, log_file_path, print_logger, log_level)
 
         self.hostname = hostname
         self.policy_name = policy_name
@@ -80,7 +82,7 @@ def lambda_handler(event, context):
     policy_name = event['policy_name']
     cve = event['cve']
 
-    op = Op(hostname, policy_name, cve)
+    op = Op(hostname, policy_name, cve, print_logger=True)
     status = op.run()
 
     return status

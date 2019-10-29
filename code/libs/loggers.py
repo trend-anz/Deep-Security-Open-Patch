@@ -2,9 +2,11 @@ import logging
 import os
 from base64 import b64encode
 
+PRINT_LOG_LEVELS = ['info', 'warning', 'error', 'critical']
+
 
 class Loggers:
-    def __init__(self, logger_name, log_file_path=False, log_level='INFO'):
+    def __init__(self, logger_name, console_logger=False, log_file_path='', print_logger=False, log_level='INFO'):
         if log_file_path:
             log_dir = os.path.dirname(log_file_path)
 
@@ -14,10 +16,12 @@ class Loggers:
             elif os.path.exists(log_file_path):
                 os.remove(log_file_path)
 
-        self.console_logger = self.enable_console_logger(logger_name, log_level)
+        self.print_logger = print_logger
+        self.console_logger = self.enable_console_logger(logger_name, log_level) if console_logger else False
         self.file_logger = self.enable_file_logger(logger_name, log_level, log_file_path) if log_file_path else False
 
-        self.log_handlers = [self.console_logger, self.file_logger]
+        logger_types = [self.console_logger, self.file_logger]
+        self.log_handlers = [logger_type for logger_type in logger_types if logger_type]
 
     @staticmethod
     def enable_console_logger(logger_name, log_level):
@@ -59,12 +63,10 @@ class Loggers:
         return file_log
 
     def entry(self, level, msg, to_base64=False, hide_base64=True, replace_newlines=True, replace_json=False):
+        if self.print_logger and level in PRINT_LOG_LEVELS:
+            print(msg)
+
         for handler in self.log_handlers:
-
-            # skip file handler if no filename is supplied
-            if not handler:
-                continue
-
             log_level = getattr(handler, level)
 
             if handler == self.file_logger:

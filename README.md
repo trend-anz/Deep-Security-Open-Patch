@@ -134,24 +134,21 @@ When an unknown CVE is provided, the Lambda returns the following JSON payload:
 
 ```
 cd code
+rm -rf libs/__pycache__/
 sudo pip3 install -r requirements.txt --target ./package
 cd package
 zip -r9 ../deep-security-open-patch.zip .
 cd ..
 zip -gr deep-security-open-patch.zip dsop.py libs
 aws s3 cp deep-security-open-patch.zip s3://<LAMBDA_BUCKET_NAME>/deep-security-open-patch.zip
+sudo rm -rf deep-security-open-patch.zip package
 ``` 
 
-3. (Optional) Validate the template:
+3. Validate & run the template:
 
 ```
 cd ../cfn
 aws cloudformation validate-template --template-body file://cfn.yaml
-```
-
-4. Run the template:
-
-```
 aws cloudformation create-stack \
 --stack-name deep-security-open-patch-lambda \
 --template-body file://cfn.yaml \
