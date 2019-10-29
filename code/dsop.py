@@ -9,8 +9,8 @@ APP_NAME = 'OpenPatch'
 
 
 class Op(Ds):
-    def __init__(self, hostname, policy_name, cve, log_level='INFO'):
-        super().__init__(APP_NAME, log_level)
+    def __init__(self, hostname, policy_name, cve, log_file_path=None, log_level='INFO'):
+        super().__init__(APP_NAME, log_file_path, log_level)
 
         self.hostname = hostname
         self.policy_name = policy_name
@@ -18,8 +18,6 @@ class Op(Ds):
 
         self.ips_rules = self.get_ips_rules()
         self.cve_ips_map = self.get_cve_ips_map(self.ips_rules)
-
-        self.run()
 
     def run(self):
         self.logger.entry('info', f'Received {self.cve} and "{self.hostname}" for policy "{self.policy_name}"')
@@ -31,8 +29,11 @@ class Op(Ds):
         required_ips_rule_ids = self.cve_ips_map.get(self.cve)
 
         if not required_ips_rule_ids:
-            self.logger.entry('critical', f'Cannot find an IPS rule for {self.cve}')
-            sys.exit(1)
+            msg = f'Cannot find an IPS rule for {self.cve}'
+            self.logger.entry('critical', msg)
+            status = self.json_response(400, msg)
+
+            return status
 
         joined_ips_rules = self._join_ints_as_str(required_ips_rule_ids)
         self.logger.entry('info', f'{self.cve} maps to IPS rule(s): {joined_ips_rules}')
@@ -69,7 +70,17 @@ class Op(Ds):
 
         self.logger.entry('info', f'Finished')
 
+        status = self.json_response(200, 'OK')
 
-# Op('WIN-Q0HITV3HJ6D', 'Demo Policy', 'CVE-2017-0148')
+        return status
 
 
+def lambda_handler(event, context):
+    hostname = event['hostname']
+    policy_name = event['policy_name']
+    cve = event['cve']
+
+    op = Op(hostname, policy_name, cve)
+    status = op.run()
+
+    return status

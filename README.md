@@ -104,30 +104,78 @@ Adding a new CVE results in additional IPS rule(s) being applied:
 17-Oct-19 16:28:28 - INFO - "WIN-Q0HITV3HJ6D" is already covered by policy "Demo Policy". No computer modifications are required
 17-Oct-19 16:28:28 - INFO - Finished
 ```
+## Response Payloads
+### Successful Execution
 
-## User Guide
-
-The script uses the following two environment variables:
-* `DS_KEY` (Required)
-* `DS_API_ADDRESS` (Optional - Default is `https://app.deepsecurity.trendmicro.com/api`)
-
-### Running DSOP
-
-For seamless operating, DSOP should be run as a Lambda script and be triggered by an SNS notification. The notification should contain the following information, which will have been provided by the 3rd party tool:
-
-* Hostname
-* Deep Security policy name
-* CVE     
-
-These parameters can then be passed to DSOP, like so:
+When a known CVE is provided, the Lambda returns the following JSON payload:
 
 ```
-Op('WIN-Q0HITV3HJ6D', 'Demo Policy', 'CVE-2017-0148')
+{
+  "statusCode": 200,
+  "body": "OK"
+}
 ```
 
-### Dependency
+### Unsuccessful Execution
 
-The only package DSOP requires is the [Deep Security SDK](https://automation.deepsecurity.trendmicro.com/article/dsaas/python?platform=dsaas). 
+When an unknown CVE is provided, the Lambda returns the following JSON payload:
+
+```
+{
+    "statusCode": 400,
+    "body": "Cannot find an IPS rule for CVE-2014-3568000"
+}
+```
+
+# User Guide
+
+1. Create an S3 bucket which will be used to store your Lambda.
+2. Zip & upload the Lambda:
+
+```
+cd code
+sudo pip3 install -r requirements.txt --target ./package
+cd package
+zip -r9 ../deep-security-open-patch.zip .
+cd ..
+zip -gr deep-security-open-patch.zip dsop.py libs
+aws s3 cp deep-security-open-patch.zip s3://<LAMBDA_BUCKET_NAME>/deep-security-open-patch.zip
+``` 
+
+3. (Optional) Validate the template:
+
+```
+cd ../cfn
+aws cloudformation validate-template --template-body file://cfn.yaml
+```
+
+4. Run the template:
+
+```
+aws cloudformation create-stack \
+--stack-name deep-security-open-patch-lambda \
+--template-body file://cfn.yaml \
+--parameters \
+ParameterKey=LambdaBucketName,ParameterValue=<BUCKET_NAME> \
+ParameterKey=LambdaS3KeyPath,ParameterValue=<S3_KEY_PATH> \
+ParameterKey=DeepSecurityApiKey,ParameterValue=<API_KEY> \
+ParameterKey=DeepSecurityApiAddress,ParameterValue=<API_ADDRESS> \
+--capabilities CAPABILITY_IAM
+```
+
+Note that `DeepSecurityApiAddress` is optional. It is set to `https://app.deepsecurity.trendmicro.com/api` by default.
+
+# Dev Notes
+## Update Lambda
+
+If you update the code, you'll need to update Lambda:
+
+```
+aws lambda update-function-code \
+    --function-name DeepSecurityOpenPatch \
+    --s3-bucket <BUCKET_NAME> \
+    --s3-key <S3_KEY_PATH>/deep-security-open-patch.zip
+```
 
 # Contact
 

@@ -1,20 +1,32 @@
 import logging
 import os
+from base64 import b64encode
 
 
 class Loggers:
-    def __init__(self, logger_name, log_file_path, log_level='INFO'):
-        if os.path.exists(log_file_path):
-            os.remove(log_file_path)
+    def __init__(self, logger_name, log_file_path=False, log_level='INFO'):
+        if log_file_path:
+            log_dir = os.path.dirname(log_file_path)
 
-        self.file_logger = self.enable_file_logger(logger_name, log_level, log_file_path)
+            if not os.path.isdir(log_dir):
+                os.mkdir(log_dir)
+
+            elif os.path.exists(log_file_path):
+                os.remove(log_file_path)
+
         self.console_logger = self.enable_console_logger(logger_name, log_level)
+        self.file_logger = self.enable_file_logger(logger_name, log_level, log_file_path) if log_file_path else False
+
+        self.log_handlers = [self.console_logger, self.file_logger]
 
     @staticmethod
     def enable_console_logger(logger_name, log_level):
         logger_name = f'console-{logger_name}'
         console_log = logging.getLogger(logger_name)
         console_log.setLevel(log_level)
+
+        # required to avoid Lambda duplicate logs
+        console_log.propagate = False
 
         console_handler = logging.StreamHandler()
         console_handler.setLevel(logging.DEBUG)
@@ -46,8 +58,13 @@ class Loggers:
 
         return file_log
 
-    def entry(self, level, msg, to_base64=False, hide_base64=True, replace_chars=True):
-        for handler in [self.console_logger, self.file_logger]:
+    def entry(self, level, msg, to_base64=False, hide_base64=True, replace_newlines=True, replace_json=False):
+        for handler in self.log_handlers:
+
+            # skip file handler if no filename is supplied
+            if not handler:
+                continue
+
             log_level = getattr(handler, level)
 
             if handler == self.file_logger:
@@ -60,7 +77,11 @@ class Loggers:
                         msg = f'Base64 encoded log: {encoded_msg}'
 
                 else:
-                    if replace_chars and isinstance(msg, str):
-                        msg = msg.replace('"', "'").replace('\n', ' ')
+                    if isinstance(msg, str):
+                        if replace_json:
+                            msg = msg.replace('"', "'")
+
+                        if replace_newlines:
+                            msg = msg.replace('\n', ' ')
 
             log_level(msg)

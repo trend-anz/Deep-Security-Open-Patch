@@ -3,28 +3,23 @@ import time
 import os
 import sys
 from pprint import pformat
+import json
 
 import deepsecurity as api
 from deepsecurity.rest import ApiException
 from .loggers import Loggers
 
-DEFAULT_APP_NAME='ds'
+if os.path.exists('db.py'):
+    from .db import SetupDb
+
+
 PAGE_SIZE = 5000
 
 
 class Ds:
-    output_dir_name = 'outputs'
-    cwd = os.getcwd()
-    output_dir_path = f'{cwd}/{output_dir_name}'
-
-    if not os.path.isdir(output_dir_path):
-        os.mkdir(output_dir_path)
-
-    log_file_path = f'{output_dir_name}/log.txt'
-
-    def __init__(self, app_name=DEFAULT_APP_NAME, log_level='INFO'):
+    def __init__(self, app_name, log_file_path=None, log_level='INFO'):
         self.app_name = app_name
-        self.logger = Loggers(self.app_name, self.log_file_path, log_level)
+        self.logger = Loggers(self.app_name, log_file_path, log_level)
 
         try:
             self.logger.entry('info', 'Obtaining DS API key')
@@ -37,6 +32,10 @@ class Ds:
 
         dsm_address = self._get_env_var('DS_API_ADDRESS', 'https://app.deepsecurity.trendmicro.com/api')
         self.logger.entry('info', f'Obtained DS API address: {dsm_address}')
+
+        self.enable_db_output = os.environ.get('DS_ENABLE_DB')
+        if self.enable_db_output:
+            self._db_setup()
 
         self.logger.entry('info', 'Initiating DS connection')
         config = api.Configuration()
@@ -170,6 +169,35 @@ class Ds:
 
         else:
             return default
+
+    def _db_setup(self):
+        self.logger.entry('info', 'Database output enabled. Extracting database details...')
+        try:
+            default_db_hostname = f'{self.app_name}-mysql'
+            db_hostname = self._get_env_var('DS_DB_HOSTNAME', default_db_hostname)
+            self.logger.entry('info', f'Obtained hostname: {db_hostname}')
+            db_name = self._get_env_var('DS_DB_NAME', self.app_name)
+            self.logger.entry('info', f'Obtained database name: {db_name}')
+            db_username = self._get_env_var('DS_DB_USERNAME', 'root')
+            self.logger.entry('info', f'Obtained database username: {db_username}')
+            db_password = os.environ['DS_DB_PASSWORD']
+            self.logger.entry('info', 'Obtained database password: <hidden>')
+
+            try:
+                self.db = SetupDb(db_name, db_username, db_password, db_hostname, self.logger)
+                self.table = self.db.get_table()
+                self.session = self.db.get_session()
+                self.logger.entry('info', 'Obtained database table & session')
+
+            except Exception as e:
+                msg = f'Could not connect to database - {str(e)}'
+                self.logger.entry('critical', msg)
+                sys.exit(1)
+
+        except KeyError:
+            msg = f'Required database environment variable(s) not provided'
+            self.logger.entry('critical', msg)
+            sys.exit(1)
 
     def get_cve_ips_map(self, ips_rules):
         self.logger.entry('info', f'Mapping CVEs to IPS rules')
@@ -308,3 +336,44 @@ class Ds:
         joined_ips_rules = sep.join(str(rule_id) for rule_id in int_list)
 
         return joined_ips_rules
+
+    def output_cve_ips_map(self, cve_ips_map, output_format='CSV'):
+        output_format_upper = output_format.upper()
+
+        msg = ['CVE to IPS rule map:\n']
+
+        if output_format_upper == 'JSON':
+            output = json.dumps(cve_ips_map)
+
+        else:
+            msg.append('CVE,IPS Rule ID\n')
+            output = self._cve_ips_csv_format(cve_ips_map)
+
+        msg.append(output)
+        msg = ''.join(msg)
+
+        self.logger.entry('info', msg, replace_newlines=False, replace_json=True)
+
+    def _cve_ips_csv_format(self, cve_ips_map):
+        output = []
+
+        for cve, ips_rules in cve_ips_map.items():
+            joined_rules = self._join_ints_as_str(ips_rules, sep=' ')
+            entry = f'{cve},{joined_rules}'
+            output.append(entry)
+
+        joined_output = '\n'.join(output)
+
+        return joined_output
+
+    def json_response(self, status_code, msg):
+        output = {
+            'statusCode': status_code,
+            'body': msg
+
+        }
+
+        json_output = json.dumps(output)
+        self.logger.entry('info', f'Returning the output:\n{json_output}')
+
+        return json_output
