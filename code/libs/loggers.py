@@ -64,7 +64,7 @@ class Loggers:
 
     def entry(self, level, msg, to_base64=False, hide_base64=True, replace_newlines=True, replace_json=False):
         if self.print_logger and level in PRINT_LOG_LEVELS:
-            print(msg)
+            print(f'{level} - {msg}')
 
         for handler in self.log_handlers:
             log_level = getattr(handler, level)
