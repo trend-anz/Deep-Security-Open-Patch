@@ -60,19 +60,21 @@ class Op(Ds):
         computer_id, computer_policy_id = self.get_computer(self.hostname)
 
         if computer_policy_id == policy_id:
-            self.logger.entry('info', f'"{self.hostname}" is already covered by policy "{self.policy_name}". No '
-                                      f'computer modifications are required')
+            msg = f'"{self.hostname}" is already covered by policy "{self.policy_name}". No computer modifications ' \
+                  f'are required'
+            self.logger.entry('info', msg)
 
         else:
             self.logger.entry('info', f'"{self.hostname}" Policy ID ({computer_policy_id}) does not match '
                                       f'"{self.policy_name}" Policy ID ({policy_id})')
 
             self.set_computer_policy_id(computer_id,  policy_id)
-            self.logger.entry('info', f'Successfully moved "{self.hostname}" to Policy "{self.policy_name}"')
+            msg = f'Successfully moved "{self.hostname}" to Policy "{self.policy_name}"'
+            self.logger.entry('info', msg)
 
         self.logger.entry('info', f'Finished')
 
-        status = self.json_response(200, 'OK')
+        status = self.json_response(200, msg.replace('"', ''))
 
         return status
 

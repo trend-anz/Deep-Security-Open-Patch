@@ -111,8 +111,8 @@ When a known CVE is provided, the Lambda returns the following JSON payload:
 
 ```
 {
-  "statusCode": 200,
-  "body": "OK"
+    "statusCode": 200, 
+    "body": "\"Successfully moved WIN-Q0HITV3HJ6D to Policy Demo Policy\""
 }
 ```
 

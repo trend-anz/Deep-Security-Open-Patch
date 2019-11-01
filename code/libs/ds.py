@@ -369,7 +369,7 @@ class Ds:
     def json_response(self, status_code, msg):
         output = {
             'statusCode': status_code,
-            'body': msg
+            'body': json.dumps(msg)
 
         }
 
