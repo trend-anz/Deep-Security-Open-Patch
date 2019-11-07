@@ -39,7 +39,9 @@ class Op(Ds):
                                       'required')
 
         self.logger.entry('info', f'Now checking if "{hostname}" is covered by policy "{policy_name}"')
-        computer_id, computer_policy_id = self.get_computer(hostname)
+        computer_details = self.get_computer(hostname)
+        computer_id = computer_details.computers[0].id
+        computer_policy_id = computer_details.computers[0].policy_id
 
         if computer_policy_id == policy_id:
             self.logger.entry('info', f'"{hostname}" is already covered by policy "{policy_name}". No computer '
@@ -115,8 +117,19 @@ def lambda_handler(event, context):
     policy_name = event['policy_name']
     cve = event['cve']
     enable_rules = event.get('enable_rules', 'true').lower()
+    log_level = event.get('log_level', 'INFO')
 
-    op = Op(APP_NAME, print_logger=True)
+    op = Op(APP_NAME, print_logger=True, log_level=log_level)
     status = op.run(hostname, policy_name, cve, enable_rules)
 
     return status
+
+
+demo_event = {
+    'hostname': 'WIN-Q0HITV3HJ6D',
+    'policy_name': 'Demo Policy',
+    'cve': 'CVE-2014-3568',
+    'log_level': 'DEBUG',
+}
+
+lambda_handler(demo_event, '')
