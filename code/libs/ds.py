@@ -319,6 +319,43 @@ class Ds:
             self.logger.entry('critical', str(e))
             sys.exit(1)
 
+    def add_ips_rules(self, policy_id, ips_rule_ids):
+        ips_api = api.PolicyIntrusionPreventionRuleAssignmentsRecommendationsApi(self.api_client)
+        ips_rule_api = api.RuleIDs()
+        ips_rule_api.rule_ids = ips_rule_ids
+
+        try:
+            ips_api.add_intrusion_prevention_rule_ids_to_policy(
+                policy_id,
+                api_version=self.api_version,
+                intrusion_prevention_rule_ids=ips_rule_api,
+                overrides=False
+            )
+
+            self.logger.entry('info', 'Successfully applied new rule(s)')
+
+        except ApiException as e:
+            self.logger.entry('critical', str(e))
+            sys.exit(1)
+
+    def remove_ips_rules(self, policy_id, ips_rule_ids):
+        ips_api = api.PolicyIntrusionPreventionRuleAssignmentsRecommendationsApi(self.api_client)
+
+        for ips_rule_id in ips_rule_ids:
+            try:
+                ips_api.remove_intrusion_prevention_rule_id_from_policy(
+                    policy_id,
+                    ips_rule_id,
+                    api_version=self.api_version,
+                    overrides=False
+                )
+
+                self.logger.entry('info', f'Successfully removed IPS rule ID {ips_rule_id}')
+
+            except ApiException as e:
+                self.logger.entry('critical', str(e))
+                sys.exit(1)
+
     def set_computer_policy_id(self, computer_id, policy_id):
         computers_api = api.ComputersApi(self.api_client)
         computer = api.Computer()
@@ -377,3 +414,16 @@ class Ds:
         self.logger.entry('info', f'Returning the output:\n{json_output}')
 
         return json_output
+
+    def str_to_bool(self, string):
+        if string == 'true':
+            enable_filters_bool = True
+
+        elif string == 'false':
+            enable_filters_bool = False
+
+        else:
+            self.logger.entry('critical', '"enable_rules" must be set to true or false')
+            sys.exit(1)
+
+        return enable_filters_bool

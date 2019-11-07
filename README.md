@@ -9,16 +9,17 @@ DSOP enables third parties (Tenable, Rapid7, Qualys, ServiceNow, etc) to easily 
 DSOP will then do the following:
 
 1. Check if the specified policy name exists. If it doesn't, DSOP will create it
-2. Check if the policy already has rule(s) applied which protect against the specified CVE. If it doesn't, DSOP adds the necessary rule(s)
+2. Check if the policy already has rule(s) applied which protect against the specified CVE. If it doesn't, DSOP adds them
 3. Check if the host is protected by the specified policy. If it isn't, DSOP changes the host's policy to match the specified policy  
 
 ## Example Output
 
 Provided parameters:
 
-* Hostname: WIN-Q0HITV3HJ6D
-* Policy name: Demo Policy
-* CVE: CVE-2014-3568
+* hostname: WIN-Q0HITV3HJ6D
+* policy_name: Demo Policy
+* cve: CVE-2014-3568
+* enable_rules: true (optional: defaults to 'true')
 
 ### First Run
 
@@ -105,7 +106,7 @@ Adding a new CVE results in additional IPS rule(s) being applied:
 17-Oct-19 16:28:28 - INFO - Finished
 ```
 ## Response Payloads
-### Successful Execution
+### Successful Enabled Execution
 
 When a known CVE is provided, the Lambda returns the following JSON payload:
 
@@ -125,6 +126,14 @@ When an unknown CVE is provided, the Lambda returns the following JSON payload:
     "statusCode": 400,
     "body": "Cannot find an IPS rule for CVE-2014-3568000"
 }
+```
+
+### Successful Removal Execution
+
+```
+{
+    "statusCode": 200, 
+    "body": "\"Rules are not applied to policy. No changes need to be made\""}
 ```
 
 # User Guide
