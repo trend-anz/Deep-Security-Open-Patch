@@ -9,15 +9,14 @@ APP_NAME = 'DsOpenPatch'
 
 
 class Op(Ds):
-    def __init__(self, app_name, console_logger=False, log_file_path='', print_logger=False,
-                 log_level='INFO'):
-
-        super().__init__(app_name, console_logger, log_file_path, print_logger, log_level)
+    def __init__(self, app_name, console_logger=False, print_logger=False, log_level='INFO', log_file_path=''):
+        super().__init__(app_name, console_logger, print_logger, log_level, log_file_path)
 
         self.ips_rules = self.get_ips_rules()
         self.cve_ips_map = self.get_cve_ips_map(self.ips_rules)
 
-    def enable_rules(self, hostname, policy_id, policy_name, existing_ips_rule_ids, cve_ips_rule_ids):
+    def enable_ips_rules(self, hostname, computer_id, current_computer_policy_id, policy_id, policy_name,
+                         existing_ips_rule_ids, cve_ips_rule_ids):
         changed = False
 
         if existing_ips_rule_ids:
@@ -37,17 +36,12 @@ class Op(Ds):
             self.logger.entry('info', 'All required IPS rules are already applied. No policy modifications are '
                                       'required')
 
-        self.logger.entry('info', f'Now checking if "{hostname}" is covered by policy "{policy_name}"')
-        computer_details = self.get_computer(hostname)
-        computer_id = computer_details.id
-        computer_policy_id = computer_details.policy_id
-
-        if computer_policy_id == policy_id:
+        if current_computer_policy_id == policy_id:
             self.logger.entry('info', f'"{hostname}" is already covered by policy "{policy_name}". No computer '
                                       f'modifications are required')
 
         else:
-            self.logger.entry('info', f'"{hostname}" Policy ID ({computer_policy_id}) does not match '
+            self.logger.entry('info', f'"{hostname}" Policy ID ({current_computer_policy_id}) does not match '
                                       f'"{policy_name}" Policy ID ({policy_id})')
 
             self.set_computer_policy_id(computer_id,  policy_id)
@@ -64,7 +58,7 @@ class Op(Ds):
 
         return status
 
-    def disable_rules(self, policy_id, existing_ips_rule_ids, cve_ips_rule_ids):
+    def disable_ips_rules(self, policy_id, existing_ips_rule_ids, cve_ips_rule_ids):
         rules_to_remove = set(existing_ips_rule_ids).intersection(set(cve_ips_rule_ids))
 
         if rules_to_remove:
@@ -80,8 +74,27 @@ class Op(Ds):
 
         return status
 
+    def get_computer_and_policy_ids(self, hostname):
+        self.logger.entry("info", f"Obtaining {hostname}'s computer ID & current policy ID")
+
+        try:
+            computer_details = self.get_computer(hostname)
+
+        except ValueError as e:
+            msg = str(e)
+            self.logger.entry('critical', msg)
+            sys.exit(msg)
+
+        computer_id = computer_details.id
+        current_computer_policy_id = computer_details.policy_id
+        self.logger.entry("info", f"Computer ID: {computer_id}, Policy ID: {current_computer_policy_id}")
+
+        return computer_id, current_computer_policy_id
+
     def run(self, hostname, policy_name, cve, enable_rules=True):
         self.logger.entry('info', f'Received the following inputs: {cve} and "{hostname}" for policy "{policy_name}"')
+        computer_id, current_computer_policy_id = self.get_computer_and_policy_ids(hostname)
+
         self.logger.entry('info', f'Checking if IPS rule(s) exist for {cve}')
         cve_ips_rule_ids = self.cve_ips_map.get(cve)
 
@@ -114,10 +127,11 @@ class Op(Ds):
         enable_rules_bool = self.str_to_bool(enable_rules, error_message)
 
         if enable_rules_bool:
-            status = self.enable_rules(hostname, policy_id, policy_name, existing_ips_rule_ids, cve_ips_rule_ids)
+            status = self.enable_ips_rules(hostname, computer_id, current_computer_policy_id, policy_id, policy_name,
+                                           existing_ips_rule_ids, cve_ips_rule_ids)
 
         else:
-            status = self.disable_rules(policy_id, existing_ips_rule_ids, cve_ips_rule_ids)
+            status = self.disable_ips_rules(policy_id, existing_ips_rule_ids, cve_ips_rule_ids)
 
         self.logger.entry('info', f'Finished')
 
@@ -127,21 +141,11 @@ class Op(Ds):
 def lambda_handler(event, context):
     hostname = event.get('hostname')
     policy_name = event['policy_name']
-    cve = event['cve']
+    cve = event['cve'].upper()
     enable_rules = event.get('enable_rules', 'true').lower()
-    log_level = event.get('log_level', 'INFO')
+    log_level = event.get('log_level', 'INFO').upper()
 
     op = Op(APP_NAME, print_logger=True, log_level=log_level)
     status = op.run(hostname, policy_name, cve, enable_rules)
 
     return status
-
-
-demo_event = {
-    'hostname': 'WIN-Q0HITV3HJ6D',
-    'policy_name': 'Demo Policy4353',
-    'cve': 'CVE-2014-3568',
-    'log_level': 'INFO',
-}
-
-lambda_handler(demo_event, '')

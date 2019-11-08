@@ -6,7 +6,7 @@ PRINT_LOG_LEVELS = ['info', 'warning', 'error', 'critical']
 
 
 class Loggers:
-    def __init__(self, logger_name, console_logger=False, log_file_path='', print_logger=False, log_level='INFO'):
+    def __init__(self, logger_name, console_logger=False, print_logger=False, log_level='INFO', log_file_path=''):
         if log_level.lower() == 'debug':
             PRINT_LOG_LEVELS.append('debug')
 

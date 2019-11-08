@@ -16,7 +16,7 @@ PAGE_SIZE = 5000
 
 
 class Ds:
-    def __init__(self, app_name, console_logger=False, log_file_path='', print_logger=False, log_level='INFO'):
+    def __init__(self, app_name, console_logger=False, print_logger=False, log_level='INFO', log_file_path=''):
         """Initiate Ds class
 
         Completes the following tasks:
@@ -26,7 +26,7 @@ class Ds:
             * Prepares DS API
         """
         self.app_name = app_name
-        self.logger = Loggers(self.app_name, console_logger, log_file_path, print_logger, log_level)
+        self.logger = Loggers(self.app_name, console_logger, print_logger, log_level, log_file_path)
 
         try:
             self.logger.entry('info', 'Obtaining DS API key')
@@ -1587,7 +1587,13 @@ class Ds:
         search_computers_api = api.ComputersApi(self.api_client).search_computers
         result = self._find_exact_match(search_field, hostname, search_computers_api)
 
-        return result.computers[0]
+        try:
+            computer = result.computers[0]
+
+        except IndexError:
+            raise ValueError(f'Computer "{hostname}" cannot be found in Deep Security')
+
+        return computer
 
     def get_ips_rules(self) -> dict:
         """IPS rule map with Rule ID as key

@@ -14,12 +14,17 @@ DSOP will then do the following:
 
 ## Example Output
 
-Provided parameters:
+Provided payload:
 
-* hostname: WIN-Q0HITV3HJ6D
-* policy_name: Demo Policy
-* cve: CVE-2014-3568
-* enable_rules: true (optional: defaults to 'true')
+```
+{
+    'hostname': 'WIN-Q0HITV3HJ6D',
+    'policy_name': 'Demo Policy',
+    'cve': 'CVE-2016-2118',
+    'enable_rules': 'true', #optional - defaults to 'true'
+    'log_level': 'INFO' # optional - defaults to 'INFO'
+}
+```
 
 ### First Run
 
