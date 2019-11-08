@@ -9,8 +9,8 @@ APP_NAME = 'DsOpenPatch'
 
 
 class Op(Ds):
-    def __init__(self, app_name, console_logger=False, print_logger=False, log_level='INFO', log_file_path=''):
-        super().__init__(app_name, console_logger, print_logger, log_level, log_file_path)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
         self.ips_rules = self.get_ips_rules()
         self.cve_ips_map = self.get_cve_ips_map(self.ips_rules)
@@ -149,7 +149,7 @@ def lambda_handler(event, context):
     enable_rules = event.get('enable_rules', 'true').lower()
     log_level = event.get('log_level', 'INFO').upper()
 
-    op = Op(APP_NAME, print_logger=True, log_level=log_level)
+    op = Op(app_name=APP_NAME, print_logger=True, log_level=log_level)
     status = op.run(hostname, policy_name, cve, enable_rules)
 
     return status
