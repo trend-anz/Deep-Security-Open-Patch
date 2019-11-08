@@ -1,6 +1,6 @@
 import sys
 import warnings
-from libs.ds import Ds
+from onnds import Ds
 
 if not sys.warnoptions:
     warnings.simplefilter('ignore')
@@ -112,13 +112,17 @@ class Op(Ds):
             policy = self.get_policy(policy_name)
             self.logger.entry('info', f'"{policy_name}" does exists')
             policy_id = policy.id
-            existing_ips_rule_ids = policy.intrusion_prevention.rule_ids
-            existing_ips_rule_ids_str = self._join_ints_as_str(existing_ips_rule_ids)
-            self.logger.entry('info', f'"{policy_name}" has the following rules applied: {existing_ips_rule_ids_str}')
+            rule_ids = policy.intrusion_prevention.rule_ids
+            existing_ips_rule_ids = rule_ids if rule_ids else []
+
+            if existing_ips_rule_ids:
+                existing_ips_rule_ids_str = self._join_ints_as_str(existing_ips_rule_ids)
+                self.logger.entry('info', f'"{policy_name}" has the following rules applied: '
+                                          f'{existing_ips_rule_ids_str}')
 
         except IndexError:
             policy_id = self.create_policy(policy_name)
-            existing_ips_rule_ids = None
+            existing_ips_rule_ids = []
 
         joined_ips_rules = self._join_ints_as_str(cve_ips_rule_ids)
         self.logger.entry('info', f'{cve} maps to IPS rule(s): {joined_ips_rules}')
