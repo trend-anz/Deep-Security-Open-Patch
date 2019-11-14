@@ -1,3 +1,4 @@
+import json
 import sys
 import warnings
 from onnds import Ds
@@ -143,6 +144,9 @@ class Op(Ds):
 
 
 def lambda_handler(event, context):
+    print('Received event. Payload will be printed below:')
+    print(json.dumps(event))
+
     hostname = event.get('hostname')
     policy_name = event['policy_name']
     cve = event['cve'].upper()
