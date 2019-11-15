@@ -147,6 +147,11 @@ def lambda_handler(event, context):
     print('Received event. Payload will be printed below:')
     print(json.dumps(event))
 
+    if event.get('Records'):
+        print('Detected an SNS event. Normalising the data...')
+        event = json.loads(event['Records'][0]['Sns']['Message'])
+
+    print('Extracting required parameters')
     hostname = event.get('hostname')
     policy_name = event['policy_name']
     cve = event['cve'].upper()
