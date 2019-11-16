@@ -38,7 +38,7 @@ class Op(Ds):
                                       'required')
 
         if current_computer_policy_id == policy_id:
-            self.logger.entry('info', f'"{hostname}" is already covered by policy "{policy_name}". No computer '
+            self.logger.entry('info', f'As "{hostname}" is already covered by policy "{policy_name}", no computer '
                                       f'modifications are required')
 
         else:
@@ -76,8 +76,6 @@ class Op(Ds):
         return status
 
     def get_computer_and_policy_ids(self, hostname):
-        self.logger.entry("info", f"Obtaining {hostname}'s computer ID & current policy ID")
-
         try:
             computer_details = self.get_computer(hostname)
 
@@ -96,6 +94,34 @@ class Op(Ds):
         self.logger.entry('info', f'Received the following inputs: {cve} and "{hostname}" for policy "{policy_name}"')
         computer_id, current_computer_policy_id = self.get_computer_and_policy_ids(hostname)
 
+        if not current_computer_policy_id and not policy_name:
+            msg = f'Invalid configuration. As {hostname} does not currently have a policy applied to it, the ' \
+                  f'"policy_name" parameter must be set'
+            self.logger.entry('critical', msg)
+            sys.exit(msg)
+
+        elif not policy_name:
+            policy_id = current_computer_policy_id
+            policy = self.get_policy('ID', policy_id, 'id')
+            policy_name = policy.name
+
+            self.logger.entry('info', f'As the "policy_name" parameter was not provided, IPS rules will be applied to '
+                                      f'the policy which is already applied to this computer ("{policy_name}")')
+
+            existing_ips_rule_ids = self.get_applied_ips_rules(policy)
+
+        else:
+            try:
+                self.logger.entry('info', f'Checking if policy name "{policy_name}" exists')
+                policy = self.get_policy('name', policy_name, 'string')
+                self.logger.entry('info', f'"{policy_name}" does exists')
+                policy_id = policy.id
+                existing_ips_rule_ids = self.get_applied_ips_rules(policy)
+
+            except IndexError:
+                policy_id = self.create_policy(policy_name)
+                existing_ips_rule_ids = []
+
         self.logger.entry('info', f'Checking if IPS rule(s) exist for {cve}')
         cve_ips_rule_ids = self.cve_ips_map.get(cve)
 
@@ -107,23 +133,6 @@ class Op(Ds):
             return status
 
         self.logger.entry('info', f'IPS rule(s) do exist for {cve}')
-
-        try:
-            self.logger.entry('info', f'Checking if "{policy_name}" exists')
-            policy = self.get_policy(policy_name)
-            self.logger.entry('info', f'"{policy_name}" does exists')
-            policy_id = policy.id
-            rule_ids = policy.intrusion_prevention.rule_ids
-            existing_ips_rule_ids = rule_ids if rule_ids else []
-
-            if existing_ips_rule_ids:
-                existing_ips_rule_ids_str = self._join_ints_as_str(existing_ips_rule_ids)
-                self.logger.entry('info', f'"{policy_name}" has the following rules applied: '
-                                          f'{existing_ips_rule_ids_str}')
-
-        except IndexError:
-            policy_id = self.create_policy(policy_name)
-            existing_ips_rule_ids = []
 
         joined_ips_rules = self._join_ints_as_str(cve_ips_rule_ids)
         self.logger.entry('info', f'{cve} maps to IPS rule(s): {joined_ips_rules}')
@@ -153,7 +162,7 @@ def lambda_handler(event, context):
 
     print('Extracting required parameters')
     hostname = event.get('hostname')
-    policy_name = event['policy_name']
+    policy_name = event.get('policy_name')
     cve = event['cve'].upper()
     enable_rules = event.get('enable_rules', 'true').lower()
     log_level = event.get('log_level', 'INFO').upper()

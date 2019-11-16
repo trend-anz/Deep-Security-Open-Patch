@@ -1,16 +1,33 @@
 # Deep Security Open Patch (DSOP)
 
-DSOP enables third parties (Tenable, Rapid7, Qualys, ServiceNow, etc) to easily apply Deep Security IPS rules ([virtual patches](https://www.trendmicro.com/vinfo/au/security/news/vulnerabilities-and-exploits/virtual-patching-patch-those-vulnerabilities-before-they-can-be-exploited)). Simply pass DSOP the:
+DSOP enables third parties (Tenable, Rapid7, Qualys, ServiceNow, etc) to easily apply and remove Deep Security IPS rules ([virtual patches](https://www.trendmicro.com/vinfo/au/security/news/vulnerabilities-and-exploits/virtual-patching-patch-those-vulnerabilities-before-they-can-be-exploited)). Simply pass DSOP the:
 
-1. Hostname of a Deep Security protected host
-2. Deep Security policy name (new or existing)
-3. CVE of a vulnerability
+## Parameters
+
+DSOP takes the following required parameters:
+    * Hostname of a Deep Security protected host
+    * CVE of a vulnerability
+
+And the following optional parameters:
+    * Deep Security policy name
+        * If a policy name is not provided, DSOP will fallback to using the host's currently applied policy
+        * If the provided policy name does not exist, DSOP will create it
+    * Whether to `enable` or `disable` rules (defaults to `enable`)
+    * Log level  (defaults to `INFO`)
+
+
+## Enable workflow
 
 DSOP will then do the following:
 
-1. Check if the specified policy name exists. If it doesn't, DSOP will create it
-2. Check if the policy already has rule(s) applied which protect against the specified CVE. If it doesn't, DSOP adds them
+1. Check if the specified policy name exists. If it doesn't, DSOP will create it. If no policy name was provided, the host's existing policy will be used
+2. Check if the policy already has rule(s) applied which protect against the specified CVE
 3. Check if the host is protected by the specified policy. If it isn't, DSOP changes the host's policy to match the specified policy  
+
+## Disable workflow
+
+1. Check if the policy has rule(s) applied which protect against the specified CVE
+2. If it does, DSOP removes the applied rule(s)
 
 ## Example Output
 
