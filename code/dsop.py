@@ -101,12 +101,14 @@ class Op(Ds):
             sys.exit(msg)
 
         elif not policy_name:
+            self.logger.entry('info', 'As the "policy_name" parameter was not provided, need to locate the name of '
+                                      'the policy which is currently applied to the computer.')
+
             policy_id = current_computer_policy_id
             policy = self.get_policy('ID', policy_id, 'id')
             policy_name = policy.name
 
-            self.logger.entry('info', f'As the "policy_name" parameter was not provided, IPS rules will be applied to '
-                                      f'the policy which is already applied to this computer ("{policy_name}")')
+            self.logger.entry('info', f'Found policy name: "{policy_name}"')
 
             existing_ips_rule_ids = self.get_applied_ips_rules(policy)
 

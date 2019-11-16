@@ -158,7 +158,16 @@ When an unknown CVE is provided, the Lambda returns the following JSON payload:
     "body": "\"Rules are not applied to policy. No changes need to be made\""}
 ```
 
-# User Guide
+# Deployment Guide
+
+There are two ways in which DSOP can be deployed:
+
+1. As a standalone Lambda
+2. As a Lambda which is subscribed to an SNS topic
+
+Both options are described below. 
+
+## Upload Lambda
 
 1. Create an S3 bucket which will be used to store your Lambda.
 2. Zip & upload the Lambda:
@@ -175,7 +184,9 @@ aws s3 cp deep-security-open-patch.zip s3://<LAMBDA_BUCKET_NAME>/deep-security-o
 rm -rf deep-security-open-patch.zip package
 ``` 
 
-3. Validate & run the template:
+### Deploy Lambda
+
+1. Deploy CloudFormation template:
 
 ```
 cd ../cfn
@@ -183,6 +194,26 @@ aws cloudformation validate-template --template-body file://cfn.yaml
 aws cloudformation create-stack \
 --stack-name deep-security-open-patch-lambda \
 --template-body file://cfn.yaml \
+--parameters \
+ParameterKey=LambdaBucketName,ParameterValue=<BUCKET_NAME> \
+ParameterKey=LambdaS3KeyPath,ParameterValue=<S3_KEY_PATH> \
+ParameterKey=DeepSecurityApiKey,ParameterValue=<API_KEY> \
+ParameterKey=DeepSecurityApiAddress,ParameterValue=<API_ADDRESS> \
+--capabilities CAPABILITY_IAM
+```
+
+Note that `DeepSecurityApiAddress` is optional. It is set to `https://app.deepsecurity.trendmicro.com/api` by default.
+
+### Deploy Lambda + SNS
+
+1. Deploy CloudFormation template:
+
+```
+cd ../cfn
+aws cloudformation validate-template --template-body file://cfn-sns.yaml
+aws cloudformation create-stack \
+--stack-name deep-security-open-patch-lambda-sns \
+--template-body file://cfn-sns.yaml \
 --parameters \
 ParameterKey=LambdaBucketName,ParameterValue=<BUCKET_NAME> \
 ParameterKey=LambdaS3KeyPath,ParameterValue=<S3_KEY_PATH> \
