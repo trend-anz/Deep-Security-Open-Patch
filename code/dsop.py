@@ -147,6 +147,7 @@ class Op(Ds):
                                            existing_ips_rule_ids, cve_ips_rule_ids)
 
         else:
+            self.logger.entry('info', f'Removing the following rule(s): {existing_ips_rule_ids}')
             status = self.disable_ips_rules(policy_id, existing_ips_rule_ids, cve_ips_rule_ids)
 
         self.logger.entry('info', f'Finished')

@@ -198,11 +198,11 @@ aws cloudformation create-stack \
 ParameterKey=LambdaBucketName,ParameterValue=<BUCKET_NAME> \
 ParameterKey=LambdaS3KeyPath,ParameterValue=<S3_KEY_PATH> \
 ParameterKey=DeepSecurityApiKey,ParameterValue=<API_KEY> \
-ParameterKey=DeepSecurityApiAddress,ParameterValue=<API_ADDRESS> \
+ParameterKey=DeepSecurityAddress,ParameterValue=<API_ADDRESS> \
 --capabilities CAPABILITY_IAM
 ```
 
-Note that `DeepSecurityApiAddress` is optional. It is set to `https://app.deepsecurity.trendmicro.com/api` by default.
+Note that `DeepSecurityAddress` is optional. It is set to `https://app.deepsecurity.trendmicro.com` by default.
 
 ### Deploy Lambda + SNS
 
@@ -218,11 +218,11 @@ aws cloudformation create-stack \
 ParameterKey=LambdaBucketName,ParameterValue=<BUCKET_NAME> \
 ParameterKey=LambdaS3KeyPath,ParameterValue=<S3_KEY_PATH> \
 ParameterKey=DeepSecurityApiKey,ParameterValue=<API_KEY> \
-ParameterKey=DeepSecurityApiAddress,ParameterValue=<API_ADDRESS> \
+ParameterKey=DeepSecurityAddress,ParameterValue=<API_ADDRESS> \
 --capabilities CAPABILITY_IAM
 ```
 
-Note that `DeepSecurityApiAddress` is optional. It is set to `https://app.deepsecurity.trendmicro.com/api` by default.
+Note that `DeepSecurityAddress` is optional. It is set to `https://app.deepsecurity.trendmicro.com` by default.
 
 # Dev Notes
 ## Update Lambda

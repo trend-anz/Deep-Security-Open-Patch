@@ -16,7 +16,7 @@ Parameters:
     Type: String
     NoEcho: true
 
-  DeepSecurityApiAddress:
+  DeepSecurityAddress:
     Type: String
     Default: 'https://app.deepsecurity.trendmicro.com/api'
 
@@ -33,7 +33,7 @@ Resources:
       Environment:
         Variables:
           DS_KEY: !Ref DeepSecurityApiKey
-          DS_API_ADDRESS: !Ref DeepSecurityApiAddress
+          DS_ADDRESS: !Ref DeepSecurityAddress
       Role: !GetAtt LambdaExecutionRole.Arn
       Timeout: !Ref LambdaTimeout
       MemorySize: 192
