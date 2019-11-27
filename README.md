@@ -9,12 +9,12 @@ DSOP takes the following required parameters:
     * CVE of a vulnerability
 
 And the following optional parameters:
-    * Deep Security policy name
-        * If a policy name is not provided, DSOP will fallback to using the host's currently applied policy
-        * If the provided policy name does not exist, DSOP will create it
-    * Whether to `enable` or `disable` rules (defaults to `enable`)
-    * Log level  (defaults to `INFO`)
 
+  * Deep Security policy name
+    * If a policy name is not provided, DSOP will fallback to using the host's currently applied policy
+    * If the provided policy name does not exist, DSOP will create it
+  * Whether to `enable` or `disable` rules (defaults to `enable`)
+  * Log level  (defaults to `INFO`)
 
 ## Enable workflow
 
