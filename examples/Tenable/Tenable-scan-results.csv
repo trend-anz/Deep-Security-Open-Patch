@@ -1,0 +1,366 @@
+Plugin ID,CVE,CVSS,Risk,Host,Protocol,Port,Name,Synopsis,Description,Solution,See Also,Plugin Output,Asset UUID,Vulnerability State,IP Address,FQDN,NetBios,OS,MAC Address,Plugin Family,CVSS Base Score,CVSS Temporal Score,CVSS Temporal Vector,CVSS Vector,CVSS3 Base Score,CVSS3 Temporal Score,CVSS3 Temporal Vector,CVSS3 Vector,System Type,Host Start,Host End
+11219,,0,None,ip-172-31-7-29.ap-southeast-2.compute.internal,TCP,111,Nessus SYN scanner,It is possible to determine which TCP ports are open.,"This plugin is a SYN 'half-open' port scanner.  It shall be reasonably
+quick even against a firewalled target. 
+
+Note that SYN scans are less intrusive than TCP (full connect) scans
+against broken services, but they might cause problems for less robust
+firewalls and also leave unclosed connections on the remote target, if
+the network is loaded.",Protect your target with an IP filter.,,Port 111/tcp was found to be open,3ed24eec-d514-48cb-8db2-1f1db0abfb5d,Active,3.105.229.12,ec2-3-105-229-12.ap-southeast-2.compute.amazonaws.com,,Linux Kernel 2.6,,Port scanners,,,,,,,,,general-purpose,2020-03-17T03:13:42.479Z,2020-03-17T03:16:16.066Z
+11219,,0,None,ip-172-31-7-29.ap-southeast-2.compute.internal,TCP,22,Nessus SYN scanner,It is possible to determine which TCP ports are open.,"This plugin is a SYN 'half-open' port scanner.  It shall be reasonably
+quick even against a firewalled target. 
+
+Note that SYN scans are less intrusive than TCP (full connect) scans
+against broken services, but they might cause problems for less robust
+firewalls and also leave unclosed connections on the remote target, if
+the network is loaded.",Protect your target with an IP filter.,,Port 22/tcp was found to be open,3ed24eec-d514-48cb-8db2-1f1db0abfb5d,Active,3.105.229.12,ec2-3-105-229-12.ap-southeast-2.compute.amazonaws.com,,Linux Kernel 2.6,,Port scanners,,,,,,,,,general-purpose,2020-03-17T03:13:42.479Z,2020-03-17T03:16:16.066Z
+11219,,0,None,ip-172-31-7-29.ap-southeast-2.compute.internal,TCP,32771,Nessus SYN scanner,It is possible to determine which TCP ports are open.,"This plugin is a SYN 'half-open' port scanner.  It shall be reasonably
+quick even against a firewalled target. 
+
+Note that SYN scans are less intrusive than TCP (full connect) scans
+against broken services, but they might cause problems for less robust
+firewalls and also leave unclosed connections on the remote target, if
+the network is loaded.",Protect your target with an IP filter.,,Port 32771/tcp was found to be open,3ed24eec-d514-48cb-8db2-1f1db0abfb5d,Active,3.105.229.12,ec2-3-105-229-12.ap-southeast-2.compute.amazonaws.com,,Linux Kernel 2.6,,Port scanners,,,,,,,,,general-purpose,2020-03-17T03:13:42.479Z,2020-03-17T03:16:16.066Z
+53335,,0,None,ip-172-31-7-29.ap-southeast-2.compute.internal,TCP,111,RPC portmapper (TCP),An ONC RPC portmapper is running on the remote host.,"The RPC portmapper is running on this port. 
+
+The portmapper allows someone to get the port number of each RPC
+service running on the remote host by sending either multiple lookup
+requests or a DUMP request.",n/a,,,3ed24eec-d514-48cb-8db2-1f1db0abfb5d,Active,3.105.229.12,ec2-3-105-229-12.ap-southeast-2.compute.amazonaws.com,,Linux Kernel 2.6,,RPC,,,,,,,,,general-purpose,2020-03-17T03:13:42.479Z,2020-03-17T03:16:16.066Z
+11111,,0,None,ip-172-31-7-29.ap-southeast-2.compute.internal,TCP,111,RPC Services Enumeration,An ONC RPC service is running on the remote host.,"By sending a DUMP request to the portmapper, it was possible to
+enumerate the ONC RPC services running on the remote port.  Using this
+information, it is possible to connect and bind to each service by
+sending an RPC request to the remote port.",n/a,,"
+The following RPC services are available on TCP port 111 :
+
+ - program: 100000 (portmapper), version: 4
+ - program: 100000 (portmapper), version: 3
+ - program: 100000 (portmapper), version: 2
+",3ed24eec-d514-48cb-8db2-1f1db0abfb5d,Active,3.105.229.12,ec2-3-105-229-12.ap-southeast-2.compute.amazonaws.com,,Linux Kernel 2.6,,Service detection,,,,,,,,,general-purpose,2020-03-17T03:13:42.479Z,2020-03-17T03:16:16.066Z
+11111,,0,None,ip-172-31-7-29.ap-southeast-2.compute.internal,UDP,111,RPC Services Enumeration,An ONC RPC service is running on the remote host.,"By sending a DUMP request to the portmapper, it was possible to
+enumerate the ONC RPC services running on the remote port.  Using this
+information, it is possible to connect and bind to each service by
+sending an RPC request to the remote port.",n/a,,"
+The following RPC services are available on UDP port 111 :
+
+ - program: 100000 (portmapper), version: 4
+ - program: 100000 (portmapper), version: 3
+ - program: 100000 (portmapper), version: 2
+",3ed24eec-d514-48cb-8db2-1f1db0abfb5d,Active,3.105.229.12,ec2-3-105-229-12.ap-southeast-2.compute.amazonaws.com,,Linux Kernel 2.6,,Service detection,,,,,,,,,general-purpose,2020-03-17T03:13:42.479Z,2020-03-17T03:16:16.066Z
+10287,,0,None,ip-172-31-7-29.ap-southeast-2.compute.internal,UDP,0,Traceroute Information,It was possible to obtain traceroute information.,Makes a traceroute to the remote host.,n/a,,"For your information, here is the traceroute from 172.16.25.130 to 3.105.229.12 : 
+172.16.25.130
+54.252.0.87
+3.105.229.12
+
+Hop Count: 2
+",3ed24eec-d514-48cb-8db2-1f1db0abfb5d,Active,3.105.229.12,ec2-3-105-229-12.ap-southeast-2.compute.amazonaws.com,,Linux Kernel 2.6,,General,,,,,,,,,general-purpose,2020-03-17T03:13:42.479Z,2020-03-17T03:16:16.066Z
+25220,,0,None,ip-172-31-7-29.ap-southeast-2.compute.internal,TCP,0,TCP/IP Timestamps Supported,The remote service implements TCP timestamps.,"The remote host implements TCP timestamps, as defined by RFC1323.  A
+side effect of this feature is that the uptime of the remote host can
+sometimes be computed.",n/a,http://www.ietf.org/rfc/rfc1323.txt,,3ed24eec-d514-48cb-8db2-1f1db0abfb5d,Active,3.105.229.12,ec2-3-105-229-12.ap-southeast-2.compute.amazonaws.com,,Linux Kernel 2.6,,General,,,,,,,,,general-purpose,2020-03-17T03:13:42.479Z,2020-03-17T03:16:16.066Z
+12053,,0,None,ip-172-31-7-29.ap-southeast-2.compute.internal,TCP,0,Host Fully Qualified Domain Name (FQDN) Resolution,It was possible to resolve the name of the remote host.,"Nessus was able to resolve the fully qualified domain name (FQDN) of
+the remote host.",n/a,,"
+3.105.229.12 resolves as ec2-3-105-229-12.ap-southeast-2.compute.amazonaws.com.
+",3ed24eec-d514-48cb-8db2-1f1db0abfb5d,Active,3.105.229.12,ec2-3-105-229-12.ap-southeast-2.compute.amazonaws.com,,Linux Kernel 2.6,,General,,,,,,,,,general-purpose,2020-03-17T03:13:42.479Z,2020-03-17T03:16:16.066Z
+22964,,0,None,ip-172-31-7-29.ap-southeast-2.compute.internal,TCP,22,Service Detection,The remote service could be identified.,"Nessus was able to identify the remote service by its banner or by
+looking at the error message it sends when it receives an HTTP
+request.",n/a,,An SSH server is running on this port.,3ed24eec-d514-48cb-8db2-1f1db0abfb5d,Active,3.105.229.12,ec2-3-105-229-12.ap-southeast-2.compute.amazonaws.com,,Linux Kernel 2.6,,Service detection,,,,,,,,,general-purpose,2020-03-17T03:13:42.479Z,2020-03-17T03:16:16.066Z
+22964,,0,None,ip-172-31-7-29.ap-southeast-2.compute.internal,TCP,32771,Service Detection,The remote service could be identified.,"Nessus was able to identify the remote service by its banner or by
+looking at the error message it sends when it receives an HTTP
+request.",n/a,,A web server is running on this port.,3ed24eec-d514-48cb-8db2-1f1db0abfb5d,Active,3.105.229.12,ec2-3-105-229-12.ap-southeast-2.compute.amazonaws.com,,Linux Kernel 2.6,,Service detection,,,,,,,,,general-purpose,2020-03-17T03:13:42.479Z,2020-03-17T03:16:16.066Z
+10107,,0,None,ip-172-31-7-29.ap-southeast-2.compute.internal,TCP,32771,HTTP Server Type and Version,A web server is running on the remote host.,"This plugin attempts to determine the type and the version of the
+  remote web server.",n/a,,"The remote web server type is :
+
+Apache-Coyote/1.1",3ed24eec-d514-48cb-8db2-1f1db0abfb5d,Active,3.105.229.12,ec2-3-105-229-12.ap-southeast-2.compute.amazonaws.com,,Linux Kernel 2.6,,Web Servers,,,,,,,,,general-purpose,2020-03-17T03:13:42.479Z,2020-03-17T03:16:16.066Z
+24260,,0,None,ip-172-31-7-29.ap-southeast-2.compute.internal,TCP,32771,HyperText Transfer Protocol (HTTP) Information,Some information about the remote HTTP configuration can be extracted.,"This test gives some information about the remote HTTP protocol - the
+version used, whether HTTP Keep-Alive and HTTP pipelining are enabled,
+etc... 
+
+This test is informational only and does not denote any security
+problem.",n/a,,"
+Response Code : HTTP/1.1 302 Found
+
+Protocol version : HTTP/1.1
+SSL : no
+Keep-Alive : no
+Options allowed : (Not implemented)
+Headers :
+
+  Server: Apache-Coyote/1.1
+  Location: showcase.action
+  Content-Type: text/html
+  Content-Length: 0
+  Date: Tue, 17 Mar 2020 03:15:31 GMT
+  Connection: close
+  
+Response Body :
+
+",3ed24eec-d514-48cb-8db2-1f1db0abfb5d,Active,3.105.229.12,ec2-3-105-229-12.ap-southeast-2.compute.amazonaws.com,,Linux Kernel 2.6,,Web Servers,,,,,,,,,general-purpose,2020-03-17T03:13:42.479Z,2020-03-17T03:16:16.066Z
+106658,,0,None,ip-172-31-7-29.ap-southeast-2.compute.internal,TCP,32771,JQuery Detection,The web server on the remote host uses JQuery.,Nessus was able to detect JQuery on the remote host.,n/a,https://jquery.com/,"
+  URL     : http://ec2-3-105-229-12.ap-southeast-2.compute.amazonaws.com:32771/js/jquery-1.8.2.min.js
+  Version : 1.8.2
+",3ed24eec-d514-48cb-8db2-1f1db0abfb5d,Active,3.105.229.12,ec2-3-105-229-12.ap-southeast-2.compute.amazonaws.com,,Linux Kernel 2.6,,CGI abuses,,,,,,,,,general-purpose,2020-03-17T03:13:42.479Z,2020-03-17T03:16:16.066Z
+39446,,0,None,ip-172-31-7-29.ap-southeast-2.compute.internal,TCP,32771,Apache Tomcat Detection,The remote web server is an Apache Tomcat server.,"Nessus was able to detect a remote Apache Tomcat
+web server.",n/a,https://tomcat.apache.org/,"
+  URL        : http://ec2-3-105-229-12.ap-southeast-2.compute.amazonaws.com:32771/
+  Version    : 7.0.79
+  backported : 0
+  source     : Apache Tomcat/7.0.79
+",3ed24eec-d514-48cb-8db2-1f1db0abfb5d,Active,3.105.229.12,ec2-3-105-229-12.ap-southeast-2.compute.amazonaws.com,,Linux Kernel 2.6,,Web Servers,,,,,,,,,general-purpose,2020-03-17T03:13:42.479Z,2020-03-17T03:16:16.066Z
+12085,,5,Medium,ip-172-31-7-29.ap-southeast-2.compute.internal,TCP,32771,Apache Tomcat Default Files,The remote web server contains default files.,"The default error page, default index page, example JSPs and/or example servlets are installed on the remote Apache
+Tomcat server. These files should be removed as they may help an attacker uncover information about the remote Tomcat
+install or host itself.","Delete the default index page and remove the example JSP and servlets. Follow the Tomcat or OWASP instructions to 
+replace or modify the default error page.","http://www.nessus.org/u?4cb3b4dd
+https://www.owasp.org/index.php/Securing_tomcat","
+The server is not configured to return a custom page in the event of a client requesting a non-existent resource.
+This may result in a potential disclosure of sensitive information about the server to attackers.
+",3ed24eec-d514-48cb-8db2-1f1db0abfb5d,Active,3.105.229.12,ec2-3-105-229-12.ap-southeast-2.compute.amazonaws.com,,Linux Kernel 2.6,,Web Servers,5,,,AV:N/AC:L/Au:N/C:P/I:N/A:N,5.3,,,AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N,general-purpose,2020-03-17T03:13:42.479Z,2020-03-17T03:16:16.066Z
+10267,,0,None,ip-172-31-7-29.ap-southeast-2.compute.internal,TCP,22,SSH Server Type and Version Information,An SSH server is listening on this port.,"It is possible to obtain information about the remote SSH server by
+sending an empty authentication request.",n/a,,"
+SSH version : SSH-2.0-OpenSSH_7.4
+SSH supported authentication : publickey,gssapi-keyex,gssapi-with-mic
+",3ed24eec-d514-48cb-8db2-1f1db0abfb5d,Active,3.105.229.12,ec2-3-105-229-12.ap-southeast-2.compute.amazonaws.com,,Linux Kernel 2.6,,Service detection,,,,,,,,,general-purpose,2020-03-17T03:13:42.479Z,2020-03-17T03:16:16.066Z
+70657,,0,None,ip-172-31-7-29.ap-southeast-2.compute.internal,TCP,22,SSH Algorithms and Languages Supported,An SSH server is listening on this port.,"This script detects which algorithms and languages are supported by
+the remote service for encrypting communications.",n/a,,"
+Nessus negotiated the following encryption algorithm with the server : 
+
+The server supports the following options for kex_algorithms : 
+
+  curve25519-sha256
+  curve25519-sha256@libssh.org
+  diffie-hellman-group-exchange-sha1
+  diffie-hellman-group-exchange-sha256
+  diffie-hellman-group1-sha1
+  diffie-hellman-group14-sha1
+  diffie-hellman-group14-sha256
+  diffie-hellman-group16-sha512
+  diffie-hellman-group18-sha512
+  ecdh-sha2-nistp256
+  ecdh-sha2-nistp384
+  ecdh-sha2-nistp521
+
+The server supports the following options for server_host_key_algorithms : 
+
+  ecdsa-sha2-nistp256
+  rsa-sha2-256
+  rsa-sha2-512
+  ssh-ed25519
+  ssh-rsa
+
+The server supports the following options for encryption_algorithms_client_to_server : 
+
+  3des-cbc
+  aes128-cbc
+  aes128-ctr
+  aes128-gcm@openssh.com
+  aes192-cbc
+  aes192-ctr
+  aes256-cbc
+  aes256-ctr
+  aes256-gcm@openssh.com
+  blowfish-cbc
+  cast128-cbc
+  chacha20-poly1305@openssh.com
+
+The server supports the following options for encryption_algorithms_server_to_client : 
+
+  3des-cbc
+  aes128-cbc
+  aes128-ctr
+  aes128-gcm@openssh.com
+  aes192-cbc
+  aes192-ctr
+  aes256-cbc
+  aes256-ctr
+  aes256-gcm@openssh.com
+  blowfish-cbc
+  cast128-cbc
+  chacha20-poly1305@openssh.com
+
+The server supports the following options for mac_algorithms_client_to_server : 
+
+  hmac-sha1
+  hmac-sha1-etm@openssh.com
+  hmac-sha2-256
+  hmac-sha2-256-etm@openssh.com
+  hmac-sha2-512
+  hmac-sha2-512-etm@openssh.com
+  umac-128-etm@openssh.com
+  umac-128@openssh.com
+  umac-64-etm@openssh.com
+  umac-64@openssh.com
+
+The server supports the following options for mac_algorithms_server_to_client : 
+
+  hmac-sha1
+  hmac-sha1-etm@openssh.com
+  hmac-sha2-256
+  hmac-sha2-256-etm@openssh.com
+  hmac-sha2-512
+  hmac-sha2-512-etm@openssh.com
+  umac-128-etm@openssh.com
+  umac-128@openssh.com
+  umac-64-etm@openssh.com
+  umac-64@openssh.com
+
+The server supports the following options for compression_algorithms_client_to_server : 
+
+  none
+  zlib@openssh.com
+
+The server supports the following options for compression_algorithms_server_to_client : 
+
+  none
+  zlib@openssh.com
+",3ed24eec-d514-48cb-8db2-1f1db0abfb5d,Active,3.105.229.12,ec2-3-105-229-12.ap-southeast-2.compute.amazonaws.com,,Linux Kernel 2.6,,Misc.,,,,,,,,,general-purpose,2020-03-17T03:13:42.479Z,2020-03-17T03:16:16.066Z
+10881,,0,None,ip-172-31-7-29.ap-southeast-2.compute.internal,TCP,22,SSH Protocol Versions Supported,A SSH server is running on the remote host.,"This plugin determines the versions of the SSH protocol supported by
+the remote SSH daemon.",n/a,,"The remote SSH daemon supports the following versions of the
+SSH protocol :
+
+  - 1.99
+  - 2.0
+",3ed24eec-d514-48cb-8db2-1f1db0abfb5d,Active,3.105.229.12,ec2-3-105-229-12.ap-southeast-2.compute.amazonaws.com,,Linux Kernel 2.6,,General,,,,,,,,,general-purpose,2020-03-17T03:13:42.479Z,2020-03-17T03:16:16.066Z
+97610,CVE-2017-5638,10,Critical,ip-172-31-7-29.ap-southeast-2.compute.internal,TCP,32771,Apache Struts 2.3.5 - 2.3.31 / 2.5.x < 2.5.10.1 Jakarta Multipart Parser RCE (remote),"The remote web server contains a web application that uses a Java
+framework that is affected by a remote code execution vulnerability.","The version of Apache Struts running on the remote host is affected by
+a remote code execution vulnerability in the Jakarta Multipart parser
+due to improper handling of the Content-Type header. An
+unauthenticated, remote attacker can exploit this, via a specially
+crafted Content-Type header value in the HTTP request, to potentially
+execute arbitrary code, subject to the privileges of the web server
+user.","Upgrade to Apache Struts version 2.3.32 / 2.5.10.1 or later.
+Alternatively, apply the workaround referenced in the vendor advisory.","http://blog.talosintelligence.com/2017/03/apache-0-day-exploited.html
+http://www.nessus.org/u?77e9c654
+https://cwiki.apache.org/confluence/display/WW/Version+Notes+2.5.10.1
+https://cwiki.apache.org/confluence/display/WW/S2-045","
+Nessus was able to exploit the issue using the following request :
+
+GET / HTTP/1.1
+Host: ec2-3-105-229-12.ap-southeast-2.compute.amazonaws.com:32771
+Accept-Charset: iso-8859-1,utf-8;q=0.9,*;q=0.1
+Accept-Language: en
+Content-Type: %{#context['com.opensymphony.xwork2.dispatcher.HttpServletResponse'].addHeader('X-Tenable','T7hFNkne')}.multipart/form-data
+Connection: Close
+User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0)
+Pragma: no-cache
+Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, image/png, */*
+
+
+",3ed24eec-d514-48cb-8db2-1f1db0abfb5d,Active,3.105.229.12,ec2-3-105-229-12.ap-southeast-2.compute.amazonaws.com,,Linux Kernel 2.6,,CGI abuses,10,8.7,E:H/RL:OF/RC:C,AV:N/AC:L/Au:N/C:C/I:C/A:C,10,9.5,E:H/RL:O/RC:C,AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H,general-purpose,2020-03-17T03:13:42.479Z,2020-03-17T03:16:16.066Z
+11936,,0,None,ip-172-31-7-29.ap-southeast-2.compute.internal,TCP,0,OS Identification,It is possible to guess the remote operating system.,"Using a combination of remote probes (e.g., TCP/IP, SMB, HTTP, NTP,
+SNMP, etc.), it is possible to guess the name of the remote operating
+system in use. It is also possible sometimes to guess the version of
+the operating system.",n/a,,"
+Remote operating system : Linux Kernel 2.6
+Confidence level : 65
+Method : SinFP
+
+ 
+The remote host is running Linux Kernel 2.6",3ed24eec-d514-48cb-8db2-1f1db0abfb5d,Active,3.105.229.12,ec2-3-105-229-12.ap-southeast-2.compute.amazonaws.com,,Linux Kernel 2.6,,General,,,,,,,,,general-purpose,2020-03-17T03:13:42.479Z,2020-03-17T03:16:16.066Z
+54615,,0,None,ip-172-31-7-29.ap-southeast-2.compute.internal,TCP,0,Device Type,It is possible to guess the remote device type.,"Based on the remote operating system, it is possible to determine
+what the remote system type is (eg: a printer, router, general-purpose
+computer, etc).",n/a,,"Remote device type : general-purpose
+Confidence level : 65
+",3ed24eec-d514-48cb-8db2-1f1db0abfb5d,Active,3.105.229.12,ec2-3-105-229-12.ap-southeast-2.compute.amazonaws.com,,Linux Kernel 2.6,,General,,,,,,,,,general-purpose,2020-03-17T03:13:42.479Z,2020-03-17T03:16:16.066Z
+39520,,0,None,ip-172-31-7-29.ap-southeast-2.compute.internal,TCP,22,Backported Security Patch Detection (SSH),Security patches are backported.,"Security patches may have been 'backported' to the remote SSH server
+without changing its version number. 
+
+Banner-based checks have been disabled to avoid false positives. 
+
+Note that this test is informational only and does not denote any
+security problem.",n/a,https://access.redhat.com/security/updates/backporting/?sc_cid=3093,"
+Give Nessus credentials to perform local checks.
+",3ed24eec-d514-48cb-8db2-1f1db0abfb5d,Active,3.105.229.12,ec2-3-105-229-12.ap-southeast-2.compute.amazonaws.com,,Linux Kernel 2.6,,General,,,,,,,,,general-purpose,2020-03-17T03:13:42.479Z,2020-03-17T03:16:16.066Z
+110723,,0,None,ip-172-31-7-29.ap-southeast-2.compute.internal,TCP,0,No Credentials Provided,"Nessus was able to find common ports used for local checks,
+however, no credentials were provided in the scan policy.","Nessus was unable to execute credentialed checks because no 
+credentials were provided.",n/a,,"SSH was detected on port 22 but no credentials were provided.
+SSH local checks were not enabled.
+
+",3ed24eec-d514-48cb-8db2-1f1db0abfb5d,Active,3.105.229.12,ec2-3-105-229-12.ap-southeast-2.compute.amazonaws.com,,Linux Kernel 2.6,,Settings,,,,,,,,,general-purpose,2020-03-17T03:13:42.479Z,2020-03-17T03:16:16.066Z
+66334,,0,None,ip-172-31-7-29.ap-southeast-2.compute.internal,TCP,0,Patch Report,The remote host is missing several patches.,"The remote host is missing one or more security patches. This plugin
+lists the newest version of each patch to install to make sure the
+remote host is up-to-date.",Install the patches listed below.,,"
+
+. You need to take the following action :
+
+[ Apache Struts 2.3.5 - 2.3.31 / 2.5.x < 2.5.10.1 Jakarta Multipart Parser RCE (remote) (97610) ]
+
++ Action to take : Upgrade to Apache Struts version 2.3.32 / 2.5.10.1 or later.
+Alternatively, apply the workaround referenced in the vendor advisory.
+
+
+",3ed24eec-d514-48cb-8db2-1f1db0abfb5d,Active,3.105.229.12,ec2-3-105-229-12.ap-southeast-2.compute.amazonaws.com,,Linux Kernel 2.6,,General,,,,,,,,,general-purpose,2020-03-17T03:13:42.479Z,2020-03-17T03:16:16.066Z
+19506,,0,None,ip-172-31-7-29.ap-southeast-2.compute.internal,TCP,0,Nessus Scan Information,This plugin displays information about the Nessus scan.,"This plugin displays, for each tested host, information about the
+scan itself :
+
+  - The version of the plugin set.
+  - The type of scanner (Nessus or Nessus Home).
+  - The version of the Nessus Engine.
+  - The port scanner(s) used.
+  - The port range scanned.
+  - Whether credentialed or third-party patch management
+    checks are possible.
+  - The date of the scan.
+  - The duration of the scan.
+  - The number of hosts scanned in parallel.
+  - The number of checks done in parallel.",n/a,,"Information about this scan : 
+
+Nessus version : 8.10.0
+Plugin feed version : 202003140320
+Scanner edition used : Nessus
+Scan type : Normal
+Scan policy used : Basic Network Scan
+Scanner IP : tenable.io Scanner
+Port scanner(s) : nessus_syn_scanner 
+Port range : default
+Thorough tests : no
+Experimental tests : no
+Paranoia level : 1
+Report verbosity : 1
+Safe checks : yes
+Optimize the test : yes
+Credentialed checks : no
+Patch management checks : None
+CGI scanning : disabled
+Web application tests : disabled
+Max hosts : 30
+Max checks : 4
+Recv timeout : 5
+Backports : Detected
+Allow post-scan editing: Yes
+Scan Start Date : 2020/3/17 3:14 UTC
+Scan duration : 108 sec
+",3ed24eec-d514-48cb-8db2-1f1db0abfb5d,Active,3.105.229.12,ec2-3-105-229-12.ap-southeast-2.compute.amazonaws.com,,Linux Kernel 2.6,,Settings,,,,,,,,,general-purpose,2020-03-17T03:13:42.479Z,2020-03-17T03:16:16.066Z
+117886,,0,None,ip-172-31-7-29.ap-southeast-2.compute.internal,TCP,0,Local Checks Not Enabled (info),Local checks were not enabled.,"Nessus did not enable local checks on the remote host. This does not
+necessarily indicate a problem with the scan. Credentials may not have
+been provided, local checks may not be available for the target, the
+target may not have been identified, or another issue may have
+occurred that prevented local checks from being enabled. See plugin
+output for details.
+
+This plugin reports informational findings related to local checks not
+being enabled. For failure information, see plugin 21745 :
+'Authentication Failure - Local Checks Not Run'.",n/a,,"
+The following issues were reported :
+
+  - Plugin      : no_local_checks_credentials.nasl
+    Plugin ID   : 110723
+    Plugin Name : No Credentials Provided
+    Message     : 
+Credentials were not provided for detected SSH service.
+",3ed24eec-d514-48cb-8db2-1f1db0abfb5d,Active,3.105.229.12,ec2-3-105-229-12.ap-southeast-2.compute.amazonaws.com,,Linux Kernel 2.6,,Settings,,,,,,,,,general-purpose,2020-03-17T03:13:42.479Z,2020-03-17T03:16:16.066Z
+45590,,0,None,ip-172-31-7-29.ap-southeast-2.compute.internal,TCP,0,Common Platform Enumeration (CPE),"It was possible to enumerate CPE names that matched on the remote
+system.","By using information obtained from a Nessus scan, this plugin reports
+CPE (Common Platform Enumeration) matches for various hardware and
+software products found on a host. 
+
+Note that if an official CPE is not available for the product, this
+plugin computes the best possible CPE based on the information
+available from the scan.",n/a,"http://cpe.mitre.org/
+https://nvd.nist.gov/products/cpe","
+The remote operating system matched the following CPE : 
+
+  cpe:/o:linux:linux_kernel:2.6
+
+Following application CPE's matched on the remote system :
+
+  cpe:/a:apache:tomcat:7.0.79 -> Apache Software Foundation Tomcat 7.0.79
+  cpe:/a:jquery:jquery:1.8.2
+  cpe:/a:openbsd:openssh:7.4 -> OpenBSD OpenSSH 7.4
+",3ed24eec-d514-48cb-8db2-1f1db0abfb5d,Active,3.105.229.12,ec2-3-105-229-12.ap-southeast-2.compute.amazonaws.com,,Linux Kernel 2.6,,General,,,,,,,,,general-purpose,2020-03-17T03:13:42.479Z,2020-03-17T03:16:16.066Z

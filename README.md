@@ -5,8 +5,8 @@ DSOP enables third parties (Tenable, Rapid7, Qualys, ServiceNow, etc) to easily 
 ## Parameters
 
 DSOP takes the following required parameters:
-    * Hostname of a Deep Security protected host
-    * CVE of a vulnerability
+  * Hostname of a Deep Security protected host
+  * CVE of a vulnerability
 
 And the following optional parameters:
 
