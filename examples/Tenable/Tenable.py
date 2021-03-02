@@ -2,8 +2,8 @@ from dsop import Op
 import csv
 
 APP_NAME = 'DsOpenPatch'
-LOG_LEVEL = 'DEBUG'
-REPORT_FILENAME = 'Tenable.csv'
+LOG_LEVEL = 'INFO'
+REPORT_FILENAME = 'Tenable-scan-results.csv'
 
 
 def get_vulns():
